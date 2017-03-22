@@ -438,10 +438,6 @@ class SendTemplateStart(ModelView):
         help='Total emails to send')
     template = fields.Many2One("electronic.mail.template", 'Template')
 
-    @staticmethod
-    def default_use_tmpl_fields():
-        return True
-
 
 class SendTemplate(Wizard):
     "Send Email from template"
