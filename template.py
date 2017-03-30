@@ -39,7 +39,7 @@ class Template(ModelSQL, ModelView):
     __name__ = 'electronic.mail.template'
     name = fields.Char('Name', required=True, translate=True)
     model = fields.Many2One('ir.model', 'Model', required=True)
-    from_ = fields.Char('From')
+    from_ = fields.Char('From', required=True)
     sender = fields.Char('Sender')
     to = fields.Char('To')
     cc = fields.Char('CC')
