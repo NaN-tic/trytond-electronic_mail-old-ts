@@ -91,7 +91,7 @@ msgstr "CC"
 
 msgctxt "field:electronic.mail.template,create_action:"
 msgid "Create Action"
-msgstr "Erstellungsaktion"
+msgstr "Aktion auf dem Modell erstellen"
 
 msgctxt "field:electronic.mail.template,create_date:"
 msgid "Create Date"
@@ -111,7 +111,7 @@ msgstr "Von"
 
 msgctxt "field:electronic.mail.template,html:"
 msgid "HTML Body"
-msgstr "HTML Body"
+msgstr "HTML"
 
 msgctxt "field:electronic.mail.template,id:"
 msgid "ID"
