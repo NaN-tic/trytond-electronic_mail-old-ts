@@ -360,10 +360,10 @@ class Template(ModelSQL, ModelView):
             if value['signature']:
                 user = User(Transaction().user)
                 if user.signature:
-                    plain = '%s\n--\n%s' % (
+                    plain = '%s\n-- \n%s' % (
                             plain, user.signature.encode('utf-8'))
                 if user.signature_html:
-                    html = '%s<br/>--<br/>%s' % (
+                    html = '%s<br/>-- <br/>%s' % (
                             html, user.signature_html.encode('utf-8'))
 
             # TODO Add styles
