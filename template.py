@@ -340,6 +340,8 @@ class Template(ModelSQL, ModelView):
 
             if value.get('cc'):
                 recipients += value['cc'].split(';')
+            if value.get('bcc'):
+                recipients += value['bcc'].split(';')
 
             message = MIMEMultipart()
             # message['Date'] = formatdate(localtime=1)
