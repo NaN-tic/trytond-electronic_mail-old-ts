@@ -368,7 +368,7 @@ class Template(ModelSQL, ModelView):
 
             # TODO Add styles
             if html:
-                html = "<html><head><head><body>%s</body></html>" % (html)
+                html = "<html><head></head><body>%s</body></html>" % (html)
 
             if html and plain:
                 body = MIMEMultipart('alternative')
