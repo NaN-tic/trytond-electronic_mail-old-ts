@@ -40,8 +40,8 @@ class ElectronicMailTestCase(ModuleTestCase):
                 'bcc': 'bbc@domain.com',
                 'subject': 'Email ${record.name}',
                 'language': "${record.lang and record.lang.code or 'en'}",
-                'plain': 'Hello ${record.name}',
-                'html': 'Hello <strong>${record.name}</strong>',
+                'plain': 'Hello ${record.name}, ${user.name}',
+                'html': 'Hello <strong>${record.name}</strong>, ${user.name}',
                 }])
         self.assertEqual(template.wizard.name, 'Test Party')
 
@@ -58,7 +58,7 @@ class ElectronicMailTestCase(ModuleTestCase):
 
         data, = template.pre_render([party])
         self.assertEqual(data['to'], 'iona@domain.com')
-        self.assertEqual(data['plain'], 'Hello Iona')
+        self.assertEqual(data['plain'], 'Hello Iona, Administrator')
         self.assertEqual(data['subject'], 'Email Iona')
 
         data['subject'] = 'A coffe break, ${record.name}'
