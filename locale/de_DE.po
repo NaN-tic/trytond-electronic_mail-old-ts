@@ -320,7 +320,6 @@ msgctxt "view:electronic.mail.template:"
 msgid "Advanced"
 msgstr "Fortgeschritten"
 
-#, fuzzy
 msgctxt "view:electronic.mail.template:"
 msgid "General"
 msgstr "Allgemein"
