@@ -461,8 +461,6 @@ class SendTemplate(Wizard):
 
     def default_start(self, fields):
         default = self.render_fields(self.__name__)
-        if default['html']:
-            default['send_html'] = True
         return default
 
     def render_fields(self, name):
