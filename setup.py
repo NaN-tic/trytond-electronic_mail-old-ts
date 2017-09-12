@@ -43,7 +43,11 @@ minor_version = int(minor_version)
 name = 'trytonspain_electronic_mail'
 download_url = 'https://bitbucket.org/trytonspain/trytond-electronic_mail'
 
-requires = []
+requires = [
+    'Genshi',
+    'Jinja2',
+    'emailvalid',
+]
 for dep in info.get('depends', []):
     if not re.match(r'(ir|res)(\W|$)', dep):
         prefix = MODULE2PREFIX.get(dep, 'trytond')
