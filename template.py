@@ -396,6 +396,7 @@ class Template(ModelSQL, ModelView):
             if value.get('reports'):
                 for report in value['reports']:
                     ext, data, filename, file_name = report[0:5]
+                    filename = file_name or filename
                     filename = ext and '%s.%s' % (filename, ext) or filename
                     content_type, _ = mimetypes.guess_type(filename)
                     maintype, subtype = (
