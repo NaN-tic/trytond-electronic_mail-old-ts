@@ -310,7 +310,10 @@ class Template(ModelSQL, ModelView):
             for report_action in template.reports:
                 report = Pool().get(report_action.report_name, type='report')
                 reports.append([report.execute(
-                    [record.id], {'id': record.id}),
+                    [record.id], {
+                        'id': record.id,
+                        'action_id': report_action.id
+                    }),
                     cls.eval(report_action.email_filename, record, engine)])
             # The boolean for direct print in the tuple is useless for emails
             val['reports'] = [(r[0][0], r[0][1], r[0][3], r[1]) for r in reports]
