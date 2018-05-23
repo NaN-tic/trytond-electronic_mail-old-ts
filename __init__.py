@@ -13,11 +13,14 @@ def register():
         template.Template,
         template.TemplateReport,
         template.SendTemplateStart,
-        activity.Activity,
         action.ActionReport,
         action.ActionWizard,
         user.User,
         trigger.Trigger,
+        module='electronic_mail', type_='model')
+    Pool.register(
+        activity.Activity,
+        depends=['activity'],
         module='electronic_mail', type_='model')
     Pool.register(
         template.SendTemplate,
