@@ -220,8 +220,8 @@ msgid "Template"
 msgstr "Plantilla"
 
 msgctxt "field:res.user,signature_html:"
-msgid "Signature"
-msgstr "Firma"
+msgid "Signature HTML"
+msgstr "Firma HTML"
 
 msgctxt "help:electronic.mail.send.template.start,send_html:"
 msgid "Send email with text and html"
