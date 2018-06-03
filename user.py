@@ -10,7 +10,7 @@ __all__ = ['User']
 class User:
     __metaclass__ = PoolMeta
     __name__ = "res.user"
-    signature_html = fields.Text('Signature')
+    signature_html = fields.Text('Signature HTML')
 
     @classmethod
     def __setup__(cls):
