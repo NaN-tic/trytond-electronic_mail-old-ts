@@ -14,7 +14,9 @@ except ImportError:
 
 MODULE = 'electronic_mail'
 PREFIX = 'trytonspain'
-MODULE2PREFIX = {}
+MODULE2PREFIX = {
+    'smtp': 'trytonspain'
+}
 
 
 def read(fname):
@@ -32,6 +34,7 @@ def get_require_version(name):
         major_version, minor_version + 1)
     return require
 
+
 config = ConfigParser()
 config.readfp(open('tryton.cfg'))
 info = dict(config.items('tryton'))
@@ -43,7 +46,7 @@ major_version, minor_version, _ = version.split('.', 2)
 major_version = int(major_version)
 minor_version = int(minor_version)
 
-requires = []
+requires = ['jinja2', 'emailvalid']
 for dep in info.get('depends', []):
     if not re.match(r'(ir|res)(\W|$)', dep):
         prefix = MODULE2PREFIX.get(dep, 'trytond')
@@ -51,7 +54,19 @@ for dep in info.get('depends', []):
 requires.append(get_require_version('trytond'))
 
 tests_require = [get_require_version('proteus')]
-dependency_links = []
+series = '%s.%s' % (major_version, minor_version)
+if minor_version % 2:
+    branch = 'default'
+else:
+    branch = series
+dependency_links = [
+    ('hg+https://bitbucket.org/trytonspain/'
+        'trytond-smtp@%(branch)s'
+        '#egg=trytonspain-smtp-%(series)s' % {
+            'branch': branch,
+            'series': series,
+            }),
+]
 if minor_version % 2:
     # Add development index for testing with proteus
     dependency_links.append('https://trydevpi.tryton.org/')
