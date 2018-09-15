@@ -8,8 +8,7 @@ from trytond import backend
 __all__ = ['ActionReport', 'ActionWizard']
 
 
-class ActionReport:
-    __metaclass__ = PoolMeta
+class ActionReport(metaclass=PoolMeta):
     __name__ = 'ir.action.report'
     email_filename = fields.Char('Email File Name', translate=True,
         help='File name e-mail attachment without extension. '
@@ -28,7 +27,6 @@ class ActionReport:
         super(ActionReport, cls).__register__(module_name)
 
 
-class ActionWizard:
-    __metaclass__ = PoolMeta
+class ActionWizard(metaclass=PoolMeta):
     __name__ = 'ir.action.wizard'
     template = fields.One2Many("electronic.mail.template", 'wizard', 'Template')

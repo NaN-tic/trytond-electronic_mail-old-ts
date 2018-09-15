@@ -7,8 +7,7 @@ from trytond import backend
 __all__ = ['Activity']
 
 
-class Activity:
-    __metaclass__ = PoolMeta
+class Activity(metaclass=PoolMeta):
     __name__ = "activity.activity"
 
     @classmethod

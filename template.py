@@ -13,11 +13,12 @@ from trytond.sendmail import SMTPDataManager, sendmail_transactional, sendmail
 from genshi.template import TextTemplate
 from jinja2 import Template as Jinja2Template
 from emailvalid import check_email
-from email import Encoders, charset
+from email import charset
 from email.header import decode_header, Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
+from email.encoders import encode_base64
 from email.utils import formatdate, make_msgid
 
 __all__ = ['Template', 'TemplateReport', 'SendTemplateStart', 'SendTemplate']
@@ -130,7 +131,7 @@ class Template(ModelSQL, ModelView):
         '''Evaluate the pythonic expression and return its value
         '''
         if expression is None:
-            return u''
+            return ''
 
         assert record is not None, 'Record is undefined'
         template_context = cls.template_context(record)
@@ -143,7 +144,7 @@ class Template(ModelSQL, ModelView):
         :param record: Browse record
         '''
         if not expression:
-            return u''
+            return ''
 
         template = TextTemplate(expression)
         template_context = cls.template_context(record)
@@ -156,7 +157,7 @@ class Template(ModelSQL, ModelView):
         :param record: Browse record
         '''
         if not expression:
-            return u''
+            return ''
 
         template = Jinja2Template(expression)
         template_context = cls.template_context(record)
@@ -294,7 +295,7 @@ class Template(ModelSQL, ModelView):
         vals = []
         for record in records:
             val = {}
-            for k, v in data.iteritems():
+            for k, v in data.items():
                 value = cls.eval(v, record, engine)
                 if k in ['from_', 'sender', 'to', 'cc', 'bcc']:
                     value = value.replace(' ', '').replace(',', ';')
@@ -408,7 +409,7 @@ class Template(ModelSQL, ModelView):
 
                     attachment = MIMEBase(maintype, subtype)
                     attachment.set_payload(data)
-                    Encoders.encode_base64(attachment)
+                    encode_base64(attachment)
                     attachment.add_header(
                         'Content-Disposition', 'attachment', filename=filename)
                     message.attach(attachment)
@@ -494,7 +495,7 @@ class SendTemplate(Wizard):
         default = {}
         default['template'] = template.id
         default['total'] = total
-        for k, v in template.pre_render(records)[0].iteritems():
+        for k, v in template.pre_render(records)[0].items():
             default[k] = v
         return default
 
