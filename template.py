@@ -148,7 +148,7 @@ class Template(ModelSQL, ModelView):
 
         template = TextTemplate(expression)
         template_context = cls.template_context(record)
-        return template.generate(**template_context).render(encoding='UTF-8')
+        return template.generate(**template_context).render()
 
     @classmethod
     def _engine_jinja2(cls, expression, record):
@@ -161,7 +161,7 @@ class Template(ModelSQL, ModelView):
 
         template = Jinja2Template(expression)
         template_context = cls.template_context(record)
-        return template.render(template_context).encode('utf-8')
+        return template.render(template_context)
 
     @classmethod
     def create(cls, vlist):
@@ -374,11 +374,9 @@ class Template(ModelSQL, ModelView):
             if value['signature']:
                 user = User(Transaction().user)
                 if user.signature:
-                    plain = '%s\n-- \n%s' % (
-                            plain, user.signature.encode('utf-8'))
+                    plain = '%s\n-- \n%s' % (plain, user.signature)
                 if user.signature_html:
-                    html = '%s<br/>-- <br/>%s' % (
-                            html, user.signature_html.encode('utf-8'))
+                    html = '%s<br/>-- <br/>%s' % (html, user.signature_html)
 
             # TODO Add styles
             if html:
