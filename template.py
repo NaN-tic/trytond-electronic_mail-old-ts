@@ -325,6 +325,11 @@ class Template(ModelSQL, ModelView):
             # Signature
             val['signature'] = template.signature
 
+            # Language
+            if template.language:
+                val['languages'] = [Template.eval(
+                        template.language, record, engine)]
+
             vals.append(val)
         return vals
 
@@ -357,6 +362,9 @@ class Template(ModelSQL, ModelView):
 
             message = MIMEMultipart()
             # message['Date'] = formatdate(localtime=1)
+            if value.get('languages'):
+                message.add_header('Content-Language', ', '.join(
+                    value['languages']))
             message['Reply-to'] = from_
             message['Message-ID'] = make_msgid()
             message['From'] = from_
