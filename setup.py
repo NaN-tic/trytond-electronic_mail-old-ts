@@ -11,7 +11,9 @@ from configparser import ConfigParser
 
 MODULE = 'electronic_mail'
 PREFIX = 'trytonspain'
-MODULE2PREFIX = {}
+MODULE2PREFIX = {
+    'smtp': 'trytonspain'
+}
 
 
 def read(fname):
