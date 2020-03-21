@@ -9,6 +9,8 @@ from trytond.wizard import Wizard, StateTransition, StateView, Button
 from trytond.transaction import Transaction
 from trytond.tools import grouped_slice
 from trytond.config import config
+from trytond.i18n import gettext
+from trytond.exceptions import UserError
 from trytond.sendmail import SMTPDataManager, sendmail_transactional, sendmail
 from genshi.template import TextTemplate
 from jinja2 import Template as Jinja2Template
@@ -75,17 +77,6 @@ class Template(ModelSQL, ModelView):
     smtp_server = fields.Many2One('smtp.server', 'SMTP Server',
         domain=[('state', '=', 'done')])
     # TODO Add styles
-
-    @classmethod
-    def __setup__(cls):
-        super(Template, cls).__setup__()
-        cls._error_messages.update({
-                'smtp_error': ('Wrong connection to SMTP server. Email have '
-                    'not sent.\n\nServer mail info:\n\n%s'),
-                'recipients_error': ('Not valid recipients emails. Check '
-                    'emails in To, Cc or Bcc'),
-                'smtp_server_default': 'There are not default SMTP server',
-                })
 
     @staticmethod
     def default_engine():
@@ -300,7 +291,7 @@ class Template(ModelSQL, ModelView):
                 if k in ['from_', 'sender', 'to', 'cc', 'bcc']:
                     value = value.replace(' ', '').replace(',', ';')
                     if value and not cls.validate_emails(value):
-                        cls.raise_user_error('recipients_error')
+                        raise UserError(gettext('electronic_mail.msg_recipients_error'))
                 val[k] = value
 
             if not render_html:
@@ -346,7 +337,7 @@ class Template(ModelSQL, ModelView):
                     ('default', '=', True),
                     ], limit=1)
             if not servers:
-                cls.raise_user_error('smtp_server_default')
+                raise UserError(gettext('electronic_mail.msg_smtp_server_default'))
             server, = servers
 
         for value in values:
@@ -470,14 +461,6 @@ class SendTemplate(Wizard):
             ])
     send = StateTransition()
 
-    @classmethod
-    def __setup__(cls):
-        super(SendTemplate, cls).__setup__()
-        cls._error_messages.update({
-                'template_deleted': (
-                    'This template has been deactivated or deleted.'),
-                })
-
     def default_start(self, fields):
         default = self.render_fields(self.__name__)
         return default
@@ -491,8 +474,10 @@ class SendTemplate(Wizard):
         action_id = context.get('action_id', None)
 
         wizard = Wizard(action_id)
-        template = (wizard.template[0] if wizard.template
-            else self.raise_user_error('template_deleted'))
+        if wizard.template:
+            template = wizard.template[0]
+        else:
+            raise UserError(gettext('electronic_mail.msg_template_deleted'))
         total = len(active_ids)
 
         # TODO IMP to load first record and not browse all active ids
