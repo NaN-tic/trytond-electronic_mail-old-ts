@@ -302,6 +302,10 @@ msgctxt "selection:electronic.mail.template,engine:"
 msgid "Python"
 msgstr "Python"
 
+msgctxt "selection:ir.trigger,action:"
+msgid "Email Template"
+msgstr "Plantilla correu"
+
 msgctxt "view:electronic.mail.send.template.start:"
 msgid "Body HTML"
 msgstr "HTML body"
